@@ -59,6 +59,8 @@ menuRouter.param('menuId', (req, res, next, menuId) => {
   })
 })
 
+menuRouter.use('/:menuId/menu-items', menuItemRouter);
+
 menuRouter.get('/:menuId', (req, res) => {
   res.status(200).json({ menu: req.menu })
 })
@@ -88,7 +90,7 @@ menuRouter.delete('/:menuId', (req, res, next) => {
     } else if (menu) {
       res.sendStatus(400);
     } else {
-      db.run(`DELETE * FROM Menu WHERE Menu.id = ${req.menuId}`,
+      db.run(`DELETE FROM Menu WHERE Menu.id = ${req.menuId}`,
       function(err) {
         if (err) {
           next(err)
